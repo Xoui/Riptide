@@ -1,0 +1,21 @@
+{
+    "name": "riptide",
+    "version": "1.0.0",
+    "description": "riptide proxy time YEEEE",
+    "type": "module",
+    "scripts": {
+      "start": "node src/index.js"
+    },
+   
+    "keywords": ["riptide, xoui,"],
+    "author": "xoui",
+    "license": "GPL-3.0-or-later",
+    "dependencies": {
+        "@tomphttp/bare-server-node": "^2.0.1",
+      "serve-static": "^1.15.0"
+    },
+    "engines": {
+          "npm": ">=8.0.0",
+          "node": ">=18.0.0"
+      }
+  }
