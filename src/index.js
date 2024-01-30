@@ -1,4 +1,4 @@
-import { createBareServer }from '@tomphttp/bare-server-node';
+import { createBareServer }from 'bare-server-evil';
 import { fileURLToPath } from "url";
 import { createServer as createHttpsServer } from "node:https";
 import { createServer as createHttpServer } from "node:http";
