@@ -10,7 +10,7 @@ Installation
 bash
 Copy code
 # Clone the repository
-git clone https://github.com/your-username/riptide.git
+git clone https://github.com/xoui/riptide.git
 
 # Navigate to the directory
 cd riptide
