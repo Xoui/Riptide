@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Hypertab</title>
+  <link rel="stylesheet" href="/css/css.css" />
+</head>
+
+<style>.image-container {
+	width: 300px; /* Set the width of your container */
+	height: 200px; /* Set the height of your container */
+	background-image: url('/static/icon.png'); /* Replace with the actual path to your image file */
+	background-size: cover; /* Adjust background-size as needed */
+	background-position: center; /* Center the background image */
+  }
+  
+  img {
+      max-width: 300px;
+      height: 300px;
+    }
+ </style>
+<body id="body">
+	<div class="image-container"></div>
+
+  <script src="/js/xor.js"></script>
+  <script src="/js/bookmarks.js"></script>
+  <script src="/uv/uv.bundle.js"></script>
+  <script src="/uv/uv.config.js"></script>
+  <!-- <script src="/js/weather.js"></script> -->
+  <script>
+    // const ip = "<?php echo $_SERVER['HTTP_X_FORWARDED_FOR'] ?>";
+  </script>
+  
+  <div class="bookmarks"></div>
+  <div class="info">
+    <div id="weather">
+      <!--   Weather Widget in TOP RIGHT   -->
+      <!-- <h2 id="winfo">Loading...</h2>
+      <h2 id="alerts"></h2> -->
+    </div>
+  </div>
+
+  <div class="center">
+    <h1 id="headtxt">Riptide</h1>
+    <img src="https://cdn100.vercel.app/logo.png" id="img">
+    <
+    <div class="btns">
+      <!-- idea: maybe include __uv$config.prefix with xor.encode -->
+      <div
+        onclick="location.href=__uv$config.prefix+xor.encode('https://music.youtube.com')"
+        class="crm"
+      >
+      </div>
+    </div>
+  </div>
+  <!--
+  _____                   _                _     _                                                                      
+ |  __ \                 | |              | |   | |                                                                     
+ | |__) |   ___    _ __  | |_    ___    __| |   | |__    _   _                                                          
+ |  ___/   / _ \  | '__| | __|  / _ \  / _` |   | '_ \  | | | |                                                         
+ | |      | (_) | | |    | |_  |  __/ | (_| |   | |_) | | |_| |                                                         
+ |_|       \___/  |_|     \__|  \___|  \__,_|   |_.__/   \__, |                                                         
+                                                          __/ |                                                         
+                                                         |___/                                                          
+                                _     _                     _       _   _          _                               _    
+     /\                        | |   | |                   | |     | \ | |        | |                             | |   
+    /  \     _ __ ___     ___  | |_  | |__    _   _   ___  | |_    |  \| |   ___  | |_  __      __   ___    _ __  | | __
+   / /\ \   | '_ ` _ \   / _ \ | __| | '_ \  | | | | / __| | __|   | . ` |  / _ \ | __| \ \ /\ / /  / _ \  | '__| | |/ /
+  / ____ \  | | | | | | |  __/ | |_  | | | | | |_| | \__ \ | |_    | |\  | |  __/ | |_   \ V  V /  | (_) | | |    |   < 
+ /_/    \_\ |_| |_| |_|  \___|  \__| |_| |_|  \__, | |___/  \__|   |_| \_|  \___|  \__|   \_/\_/    \___/  |_|    |_|\_\
+                                               __/ |                                                                    
+                                              |___/                                                                                                                  
+        -->
+</body>
+</html>
